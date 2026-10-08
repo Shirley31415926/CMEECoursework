@@ -1,9 +1,9 @@
-#CMEE Bootcamp Coursework
+# CMEE Bootcamp Coursework
 
-##Purpose
+## Purpose
 This repository contains coursework assignments for the Computational Methods in Ecology and Evolution (CMEE) bootcamp, part of the Master's programme at Imperial College London.
 
-##Project structure
+## Project structure
 ```text
 CMEECoursework/
     README.md
@@ -23,21 +23,23 @@ CMEECoursework/
             1803.csv
     results/
     sandbox/
+```
 
-##Requirements
+## Requirements
 - Python 3.9.6
 - Bash
 - Unix-like terminal, such as macOS Terminal or Linux shell
 
+
+## Usage
 Run the commands from the project root directory.
-##Usage
-Run from the project root. 
+
 ```bash
 CMEECourse/code
 ```
 
-##Data 
+## Data 
 Data is from mhasoba's MQB https://github.com/MulQuaBio/MQB.git content/ 
 
-##Authors
+## Authors
 Shirley Huang
