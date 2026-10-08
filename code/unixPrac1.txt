@@ -1,0 +1,27 @@
+pwd
+cd ../data/fasta
+#1
+wc -l 407228326.fasta 407228412.fasta e_coli.fasta
+# Explanation: wc-l counts newlines, which is '\n'. If the last line doesn't has '\n' in the end, then it would be one less line than the actual lines
+
+#2
+tail -n +2 e_coli.fasta
+# Explanation: 
+
+#3
+tail -n +2 e_coli.fasta | tr -d '\n' | wc -c 
+# Explanation: 
+
+#4
+tail -n +2 e_coli.fasta | tr -d '\n' | grep -o ATGC | wc -l
+# Explanation: 
+
+#5
+dna=$(tail -n +2 e_coli.fasta | tr -d '\n'); 
+a=$(printf '%s' "$dna" | grep -o A | wc -l); 
+t=$(printf '%s' "$dna" | grep -o T | wc -l); 
+g=$(printf '%s' "$dna" | grep -o G | wc -l); 
+c=$(printf '%s' "$dna" | grep -o C | wc -l); 
+printf '%s / %s\n' "$((a + t))" "$((g + c))" | bc -l
+# Explanation: 
+
