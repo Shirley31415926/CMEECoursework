@@ -1,6 +1,6 @@
 *~
 *.tmp
-test.py
-results/*
 .venv
 .vscode
+
+
