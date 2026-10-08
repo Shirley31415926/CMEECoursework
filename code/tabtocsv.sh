@@ -17,4 +17,4 @@ else
     echo "Error creating file: ../results/$(basename $1).csv"
     exit 1
 fi
-
+ 
