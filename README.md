@@ -23,6 +23,7 @@ CMEECoursework/
             1803.csv
     results/
     sandbox/
+    .gitignore
 ```
 
 ## Requirements
