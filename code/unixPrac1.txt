@@ -2,26 +2,34 @@ pwd
 cd ../data/fasta
 #1
 wc -l 407228326.fasta 407228412.fasta e_coli.fasta
-# Explanation: wc-l counts newlines, which is '\n'. If the last line doesn't has '\n' in the end, then it would be one less line than the actual lines
+# Explanation: "wc-l" counts newlines, which is '\n'. 
+#              If the last line doesn't has '\n' in the end, then it would be one less line than the actual lines.
 
 #2
 tail -n +2 e_coli.fasta
-# Explanation: 
+# Explanation: The header is excluded because everything included starts from the second line. 
+#               "tail -n +2" means it counts from the bottom to the top, until the last but two line. That would be the second line from top.
 
 #3
 tail -n +2 e_coli.fasta | tr -d '\n' | wc -c 
-# Explanation: 
+# Explanation: Word-counts the sequence length by exluding the header and the line-ending characters by deleting the '\n'. 
+#              Counts the bytes (letters) in the file after data cleaning.
 
 #4
 tail -n +2 e_coli.fasta | tr -d '\n' | grep -o ATGC | wc -l
-# Explanation: 
+# Explanation:  Exclude the header and the line-ending characters then the sequence would be in one consistent line. 
+#               Use "grep -o" to find every occurrence of "ATGC" as a linking sequnece, 
+#               then use wc -l to count how many they are because every occurrence occupies a line.
 
 #5
-dna=$(tail -n +2 e_coli.fasta | tr -d '\n'); 
-a=$(printf '%s' "$dna" | grep -o A | wc -l); 
-t=$(printf '%s' "$dna" | grep -o T | wc -l); 
-g=$(printf '%s' "$dna" | grep -o G | wc -l); 
-c=$(printf '%s' "$dna" | grep -o C | wc -l); 
+seq=$(tail -n +2 e_coli.fasta | tr -d '\n'); 
+a=$(printf '%s' "$seq" | grep -o A | wc -l); 
+t=$(printf '%s' "$seq" | grep -o T | wc -l); 
+g=$(printf '%s' "$seq" | grep -o G | wc -l); 
+c=$(printf '%s' "$seq" | grep -o C | wc -l); 
 printf '%s / %s\n' "$((a + t))" "$((g + c))" | bc -l
-# Explanation: 
+# Explanation: Name the command that cleans the sequence as seq to make life easier. 
+#              Count every occurrence of each canonical DNA base (A,T,G,C) and use their lower-case characters to name them. 
+#              Use f-string to input the result of adding the two DNA bases values inside the brasket after their commands into '%s / %s\n'
+#              and use "bc -l" to perform decimal division on '%s / %s\n' after assigning.
 
