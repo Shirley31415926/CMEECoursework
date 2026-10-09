@@ -8,6 +8,16 @@
 
 echo "Creating a comma delimited version of $1\n ..."
 
+if [[ $# -ne 1 ]]; then
+    echo "Usage: $0 <1>" >&2
+    exit 1
+fi
+
+if [[ ! -f "$1" ]]; then
+    echo "Error: input file '$1' does not exist." >&2
+    exit 1
+fi
+
 cat "$1" | tr "," " " > "../results/$(basename $1).txt"
 
 if [ $? -eq 0 ]; then
