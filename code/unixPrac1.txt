@@ -1,7 +1,7 @@
 pwd
-#  ../code
+#  ../CMEECoursework
 
-cd ../data/fasta
+cd data/fasta
 #1
 wc -l 407228326.fasta 407228412.fasta e_coli.fasta
 # Explanation: "wc-l" counts newlines, which is '\n'. 
