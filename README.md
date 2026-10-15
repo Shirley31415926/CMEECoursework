@@ -36,7 +36,7 @@ CMEECoursework/
 Run the commands from the project root directory.
 
 ```bash
-CMEECourse/code
+CMEECourse
 ```
 
 ## Data 
