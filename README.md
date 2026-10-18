@@ -29,7 +29,7 @@ CMEECoursework/
 ## Usage
 Run the commands from the project root directory.
 ```bash
-CMEECourse
+CMEECoursework
 ```
 
 
@@ -97,7 +97,7 @@ For each record:
     Otherwise:
         Save the cleaned record
         Reserve its ID
-        
+
 Sort accepted records by ID
 Count accepted Quercu(oak) records by species
 Write the three result files
