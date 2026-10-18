@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__name__).resolve().parents[0]
 INPUT_PATH = PROJECT_ROOT / "data" / "silwood_trees_raw.csv"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
+
 INPUT_FIELDS = [
     "record_id",
     "location",
@@ -80,13 +81,7 @@ def validate_record(
     elif record_id in accepted_ids:
         rejection.append("duplicate record_id")
     else:
-        if source_row < 10:
-            row["record_id"] = f"ST00{source_row}"
-        elif source_row <100:
-            row["record_id"] = f"ST0{source_row}"
-        else:
-            row["record_id"] = f"ST{source_row}"
-
+        row["record_id"] = record_id
     # 2. location
     location = row["location"].strip()
     if not location:
@@ -123,7 +118,8 @@ def validate_record(
     else:
         try:
             distance = float(distance)
-            if not 0 < distance < 90:
+            row["distance_m"] = str(distance)
+            if not 0 < distance <= 100:
                 rejection.append("distance_m out of range")
         except ValueError:
             rejection.append("invalid distance_m")
@@ -134,16 +130,18 @@ def validate_record(
     else:
         try:
             angle = float(angle)
+            row["angle_degrees"] = str(angle)
             if not 0 < angle < 90:
                 rejection.append("angle_degrees out of range")
         except ValueError:
             rejection.append("invalid angle_degrees")
 
     # Return reasons
-    if rejection == []:
-        return row, None
-    else:
-        return row, rejection
+    if rejection:
+        return None, rejection
+    
+    accepted_ids.add(record_id)
+    return row, []
 
     """Return a cleaned record or its ordered rejection reasons."""
     raise NotImplementedError("Complete the record validation")
@@ -154,7 +152,7 @@ def process_records(
     rows: Iterable[dict[str, str]],
 ) -> tuple[list[dict[str, str]], list[dict[str, str]]]:
     accepted_ids = set()
-    source_row = 0
+    source_row = 1
     clean_records = []
     issues = []
     for row in rows:
@@ -162,11 +160,10 @@ def process_records(
         valid_output = validate_record(row, source_row, accepted_ids)
         valid_row = valid_output[0]
         valid_issue = valid_output[1]
-        accepted_ids.add(valid_row["record_id"])
         if valid_row is not None:
             clean_records.append(valid_row)
-        issue = dict(source_row = source_row, record_id = valid_row["record_id"],reasons = valid_issue)
-        if valid_row is not None:
+        if valid_row is None:
+            issue = dict(source_row = source_row, record_id = row["record_id"].strip(),reasons = ";".join(valid_issue))
             issues.append(issue)
     return clean_records, issues
     """Separate accepted records from rejected-row reports."""
@@ -187,7 +184,7 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
                 for oak in sum_oaks:
                     if oak["species"] == species:
                         oak["count"] += 1
-                        
+    sum_oaks.sort(key=lambda oak:oak["species"])        
     return sum_oaks
     """Count accepted oak records by species."""
     raise NotImplementedError("Complete the oak summary")
