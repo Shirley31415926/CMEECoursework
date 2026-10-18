@@ -121,11 +121,11 @@ results/silwood_trees_clean.csv
 # accepted, cleaned records sorted by record ID
 ```
 ```bash
-- results/silwood_tree_issues.csv 
+results/silwood_tree_issues.csv 
 # rejected records, source row numbers, and rejection reasons
 ```
 ```bash
-- results/oak_species_counts.csv
+results/oak_species_counts.csv
 # counts of accepted oak records by species
 ```
 ## Testing
