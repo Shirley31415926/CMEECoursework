@@ -82,9 +82,15 @@ CMEECoursework/
 4. Accept valid records and reserve their record IDs to detect later duplicates.
 5. Sort accepted records by record ID and count accepted oak records by species.
 6. Write the three output CSV files to results/:
-    - silwood_trees_clean.csv
-    - silwood_tree_issues.csv
-    - oak_species_counts.csv
+```bash
+    silwood_trees_clean.csv
+```
+```bash
+    silwood_tree_issues.csv
+```
+```bash
+    oak_species_counts.csv
+```
 
 ### Pseudocode
 Read the raw CSV
@@ -106,12 +112,27 @@ Write the three result files
 ## Usage
 Run all commands from the project root directory.
 Run the tree survey cleaner:
+```bash
 python3 code/clean_silwood_trees.py
-
+```
 The script creates the results/ directory files:
-results/silwood_trees_clean.csv — accepted, cleaned records sorted by record ID.
-results/silwood_tree_issues.csv — rejected records, source row numbers, and rejection reasons.
-results/oak_species_counts.csv — counts of accepted oak records by species.
+```bash
+results/silwood_trees_clean.csv 
+# accepted, cleaned records sorted by record ID
+```
+```bash
+- results/silwood_tree_issues.csv 
+# rejected records, source row numbers, and rejection reasons
+```
+```bash
+- results/oak_species_counts.csv
+# counts of accepted oak records by species
+```
+## Testing
+Run the automated tests from the project root:
+```bash
+python3 -m unittest code/test_silwood_trees.py
+```
 
 ## Requirements
 - Python 3.9.6
