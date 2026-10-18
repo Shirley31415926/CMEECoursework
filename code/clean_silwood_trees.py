@@ -61,6 +61,14 @@ def validate_record(
         "sylvatica": "sylvatica",
         "excelsior": "excelsior"
     }
+    taxon_pairs = [
+        "quercus robur",
+        "quercus petraea",
+        "acer pseudoplatanus",
+        "betula pendula",
+        "fagus sylvatica",
+        "fraxinus excelsior"
+    ]
     # Rejectoin reasons
     rejection = []
     # 1. record_id
@@ -103,7 +111,12 @@ def validate_record(
         rejection.append("invalid species")
     else:
         row["species"] = species_names[species.casefold()]
-    # 5. distance
+    # 5. genus/species combination
+    if genus.casefold() in genera and species.casefold() in species_names:
+        taxon_pair = genus.casefold() + " " + species.casefold()
+        if not taxon_pair in taxon_pairs:
+            rejection.append("invalid genus/species combination")
+    # 6. distance
     distance = row["distance_m"].strip()
     if not distance:
         rejection.append("missing distance_m")
@@ -114,7 +127,7 @@ def validate_record(
                 rejection.append("distance_m out of range")
         except ValueError:
             rejection.append("invalid distance_m")
-    # 6. angle
+    # 7. angle
     angle = row["angle_degrees"].strip()
     if not angle:
         rejection.append("missing angle_degrees")
