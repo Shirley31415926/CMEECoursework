@@ -42,6 +42,7 @@ The script code/clean_silwood_trees.py validates:
 - species
 - distance_m
 - angle_degrees
+
 It standardises recognised values and records all applicable rejection reasons for invalid records, including:
 1. `missing record_id`
 2. `invalid record_id`
