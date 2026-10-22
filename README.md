@@ -134,9 +134,73 @@ Run the automated tests from the project root:
 python3 -m unittest code/test_silwood_trees.py
 ```
 
+### Assignment 3: Calculate tree heights & Analyse Pound Hill species richness.
+This assignment contains two project. The first one calculates tree heights and the sencond one analyses Pound Hill species richness. Both data are provided in repository ```data/ ```.
+The script:
+```bash
+code/TreeHeight.R 
+code/get_TreeHeight.R
+code/pound_hill_analysis.R
+```
+
+## Project Structure
+```text
+CMEECoursework/
+├── README.md
+├── .gitignore
+├── data/
+│   ├── trees.csv
+│   ├── pound_hill_data.csv
+│   └── pound_hill_meta_data.csv
+├── code/
+│   ├── TreeHeight.R
+│   ├── get_TreeHeight.R
+│   └── pound_hill_analysis.R
+├── results/
+└── sandbox/
+```
+## Algorithm Plan
+1. Read the raw CSV
+2. Replace blank values with zeros
+3. Convert from wide to long form and to a derived table
+4. Determine the number of distinct species, quadrats and plots
+5. Make a plot-level summary containing Cultivation, Block, Plot and MeanRichness
+6. Write the result files
+7. Draw a figure comparing plot-level mean richness among the three cultivation treatments
+8. Save the figure
+
+### Pseudocode
+Read the raw CSV
+Replace blank values with zeros
+Convert from wide to long form and to a derived table
+Determine the number of distinct species, quadrats and plots
+Make a plot-level summary containing Cultivation, Block, Plot and MeanRichness
+Write the result files
+Draw a figure comparing plot-level mean richness among the three cultivation treatments
+Save the figure
+
+
+## Usage
+Run all commands from the project root directory.
+Run the pond hill analysis script:
+```bash
+Rscript code/pound_hill_analysis.R
+```
+The script creates the results/ directory files:
+```bash
+results/pound_hill_plot_richness.csv 
+# A plot-level summary containing Cultivation, Block, Plot and MeanRichness
+```
+```bash
+results/pound_hill_plot_richness.pdf 
+# A figure comparing plot-level mean richness among the three cultivation treatments
+```
+
+
 ## Requirements
 - Python 3.9.6
 - Bash
+- R
 - Unix-like terminal, such as macOS Terminal or Linux shell
 
 ## Data 
