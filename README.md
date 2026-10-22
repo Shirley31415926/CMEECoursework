@@ -182,7 +182,7 @@ Save the figure
 
 ## Usage
 Run all commands from the project root directory.
-Run the pond hill analysis script:
+Run the Pound Hill analysis script:
 ```bash
 Rscript code/pound_hill_analysis.R
 ```
