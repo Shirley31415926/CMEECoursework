@@ -62,6 +62,10 @@ richness <- length(SpeciesTotals$Species)
 print(richness)
 dplyr::n_distinct(MyWrangledData$Quadrat)
 dplyr::n_distinct(MyWrangledData$Plot)
+### Another way to count species
+# SpeciesCounts <- tapply(MyWrangledData$Count > 0, INDEX = MyWrangledData$Species, FUN = sum)
+# utils::View(SpeciesCounts)
+# length(SpeciesCounts)
 
 # Make a quadrat-level table containing Cultivation, Block, Plot, Quadrat and Richness
 TableQuadrat <- MyWrangledData %>%
@@ -81,28 +85,26 @@ write.csv(PlotRichness, "results/pound_hill_plot_richness.csv")
 
 # Plotting------------------------------------------------------------------------------
 # Compare plot-level mean richness among the three cultivation treatments
-# boxplot
-BoxPlot<- qplot(Cultivation, ave.Richness, data = PlotRichness, geom = "boxplot")
-
 p <- ggplot(PlotRichness, aes(x = Cultivation,y = ave.Richness))+
                 stat_boxplot(geom = "errorbar",
                             width = 0.25) + # Add error bar
-                geom_boxplot(fill = "dodgerblue1",
+                            geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.4)+
+                geom_boxplot(fill = c("darkgreen","dodgerblue","orange"),
                             colour = "black",
-                            alpha = 0.5,
+                            alpha = 0.5, 
                             outlier.colour = "tomato2") +
                 labs(title = "Average Species Richness among Cultivation",
                         x = "Cultivation",
                         y = "Average Species Richness")+ # Make plot easy to understand
                 theme_bw() + # make the background white
                 theme(aspect.ratio = 1) # make the plot square
-# Box plot with dot plot
-p + geom_dotplot(binaxis = 'y', stackdir = 'center', dotsize = 0.4)
-
+print(p)
+# Box plot with dot plotw
 ggsave("results/pound_hill_plot_richness.pdf", p, width = 7, height = 7)
 
-# Treatment at Block c Plot 9 in May Q5 has the highest richness.
-# The Plot treatment is quite variable. The range is about 5 and the variances is considerable
-# The cultivation timing alone has relatively obvious impacts on species richess,
-# since richness in May prominces among the three cultivation treatments.
-# The differentication between plots, for example, whether the plots were placed on the same location or not shuld be know.
+### Figure Notation
+# Treatment in May has the highest typical richness, whose median value is obvious greater than the rest.
+# Treatment in March has greater varibaility, as indicated by its wider interquartile range.
+# The cultivation timing alone cannot be interpreted directly as impact on species richess,
+# since whether the environment elements are the same among cultivation treatments and 
+# whether the plots are independent should be recognised and considered.
