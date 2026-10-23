@@ -6,15 +6,29 @@ This repository contains coursework assignments for the Computational Methods in
 ## Assignment
 ### 1. FASTA Practical
 Practical exercises of Unix shell commands and text processing using FASTA sequence files and temperature datasets.
+
 Run the script:
-```bash bash code/tabtocsv.sh <input-filename>.csv```
-```bash bash code/csvtospace.sh data/temperatures/<input-filename>.csv```
+```bash 
+bash code/tabtocsv.sh <input-filename>.csv
+``` 
+```bash 
+bash code/csvtospace.sh data/temperatures/<input-filename>.csv
+```
 The detals of filename refer to the project structue.
 
 Scripts and Answers:
-```bash code/tabtocsv.sh``` converts tab-separated input to CSV format
-```bash code/csvtospace.sh``` converts CSV-formatted input to space-separated output
-```bash code/unixPrac1.txt``` Unix practical notes and exercises
+```bash 
+code/tabtocsv.sh
+``` 
+converts tab-separated input to CSV format
+```bash 
+code/csvtospace.sh
+``` 
+converts CSV-formatted input to space-separated output
+```bash 
+code/unixPrac1.txt
+``` 
+Unix practical notes and exercises
 
 ### 2. Silwood Tree Survey
 This assignment validates and cleans the synthetic tree survey data provided in ```bash data/silwood_trees_raw.csv```.
@@ -31,6 +45,7 @@ The details are given in ```bash silwood_trees_metadata.md```.
 6. Write and save the three output CSV files. 
 
 #### Pseudocode
+```text
 Read the raw CSV
 Check the column names
 For each record:
@@ -44,12 +59,12 @@ For each record:
 Sort accepted records by ID
 Count accepted Quercu(oak) records by species
 Write the three result files
+```
 
 Run the tree survey cleaner script:
 ```bash
 python3 code/clean_silwood_trees.py
 ```
-
 Name the outputs and reserve in results/:
 ```bash
 results/silwood_trees_clean.csv 
@@ -63,6 +78,7 @@ results/silwood_tree_issues.csv
 results/oak_species_counts.csv
 # counts of accepted oak records by species
 ```
+
 #### Testing
 Run the automated tests from the project root:
 ```bash
@@ -78,20 +94,16 @@ code/TreeHeight.R
 code/get_TreeHeight.R
 code/pound_hill_analysis.R
 ```
-
 Run the Pound Hill analysis script:
 ```bash
 Rscript code/pound_hill_analysis.R
 ```
-
 Name the outputs and stored in results/:
 ```bash
 results/pound_hill_plot_richness.csv 
-# A plot-level summary containing Cultivation, Block, Plot and MeanRichness
-```
+``` 
 ```bash
 results/pound_hill_plot_richness.pdf 
-# A figure comparing plot-level mean richness among the three cultivation treatments
 ```
 
 ## Project structure
@@ -117,21 +129,6 @@ CMEECoursework/
 ├── code/
 │   ├── clean_silwood_trees.py
 │   ├── test_silwood_trees.py
-│   ├── TreeHeight.R
-│   ├── get_TreeHeight.R
-│   └── pound_hill_analysis.R
-├── results/
-└── sandbox/
-```
-```text
-CMEECoursework/
-├── README.md
-├── .gitignore
-├── data/
-│   ├── trees.csv
-│   ├── pound_hill_data.csv
-│   └── pound_hill_meta_data.csv
-├── code/
 │   ├── TreeHeight.R
 │   ├── get_TreeHeight.R
 │   └── pound_hill_analysis.R
