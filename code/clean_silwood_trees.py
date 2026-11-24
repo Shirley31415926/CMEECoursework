@@ -7,7 +7,7 @@ import csv, re
 from pathlib import Path
 from typing import Iterable
 
-PROJECT_ROOT = Path(__name__).resolve().parents[0]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 INPUT_PATH = PROJECT_ROOT / "data" / "silwood_trees_raw.csv"
 RESULTS_DIR = PROJECT_ROOT / "results"
 
@@ -40,6 +40,7 @@ def validate_record(
     source_row: int,
     accepted_ids: set[str],
 ) -> tuple[dict[str, str] | None, list[str]]:
+    """Return a cleaned record or its ordered rejection reasons."""
     # Define the canonical values 
     locations = {
         "silwood bottom": "Silwood Bottom",
@@ -143,9 +144,6 @@ def validate_record(
     accepted_ids.add(record_id)
     return row, []
 
-    """Return a cleaned record or its ordered rejection reasons."""
-    raise NotImplementedError("Complete the record validation")
-
 
 
 def process_records(
@@ -166,8 +164,6 @@ def process_records(
             issue = dict(source_row = source_row, record_id = row["record_id"].strip(),reasons = ";".join(valid_issue))
             issues.append(issue)
     return clean_records, issues
-    """Separate accepted records from rejected-row reports."""
-    raise NotImplementedError("Complete the record-processing workflow")
 
 
 def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, str]]:
@@ -186,8 +182,6 @@ def summarise_oaks(clean_records: Iterable[dict[str, str]]) -> list[dict[str, st
                         oak["count"] += 1
     sum_oaks.sort(key=lambda oak:oak["species"])        
     return sum_oaks
-    """Count accepted oak records by species."""
-    raise NotImplementedError("Complete the oak summary")
 
 
 def write_csv(
