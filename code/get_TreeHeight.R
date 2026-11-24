@@ -9,9 +9,9 @@ if (length(data_input) != 1) {
 }
 
 # Set input and output paths
-INPUT_PATH <- file.path(getwd(), data_input)
+INPUT_PATH <- normalizePath(data_input, mustWork = FALSE)
 
-# Check that the input file exists
+# Check that the input file exists and is readable
 if (!file.exists(INPUT_PATH)) {
     stop("Input file does not exist: ", INPUT_PATH)
 }
@@ -20,17 +20,38 @@ if (file.access(INPUT_PATH, 4) != 0) {
     stop("Input file is not readable: ", INPUT_PATH)
 }
 
-# Generate output filename from input filename
+# Generate output filename from input basename
 input_basename <- tools::file_path_sans_ext(basename(data_input))
 data_output <- sprintf("%s_treeheights.csv", input_basename)
 
 OUTPUT_PATH <- file.path(getwd(), "results", data_output)
 
-# Create results directory if it does not exist
-dir.create(dirname(OUTPUT_PATH), recursive = TRUE, showWarnings = FALSE)
-
 # Read CSV
 MyData <- read.csv(INPUT_PATH)
+
+# Check required columns and their order
+required_columns <- c("Species", "Distance.m", "Angle.degrees")
+
+if (!identical(names(MyData), required_columns)) {
+    stop("Input CSV must contain exactly: Species, Distance.m, Angle.degrees")
+}
+
+# Check numeric and finite measurements
+if (!is.numeric(MyData$Distance.m) ||
+    !is.numeric(MyData$Angle.degrees) ||
+    any(!is.finite(MyData$Distance.m)) ||
+    any(!is.finite(MyData$Angle.degrees))) {
+    stop("Distance.m and Angle.degrees must contain finite numeric values")
+}
+
+# Check measurement ranges
+if (any(MyData$Distance.m <= 0 | MyData$Distance.m > 100)) {
+    stop("Distance.m must be greater than 0 and no greater than 100")
+}
+
+if (any(MyData$Angle.degrees <= 0 | MyData$Angle.degrees >= 90)) {
+    stop("Angle.degrees must be greater than 0 and less than 90")
+}
 
 # Calculate tree height
 TreeHeight <- function(degrees, distance) {
@@ -50,13 +71,14 @@ TreeHeight <- function(degrees, distance) {
 }
 
 CalHeight <- function(data) {
-    data$TreeHeight <- NA_real_
+    data$height_m <- NA_real_
 
     for (i in seq_len(nrow(data))) {
-        degrees <- as.numeric(data[["Angle.degrees"]][i])
-        distance <- as.numeric(data[["Distance.m"]][i])
+        degrees <- data[["Angle.degrees"]][i]
+        distance <- data[["Distance.m"]][i]
+        #  browser()
         treeht <- TreeHeight(degrees, distance)
-        data$TreeHeight[i] <- treeht
+        data$height_m[i] <- treeht
     }
 
     return(data)
