@@ -1,36 +1,50 @@
-pwd
-#  ../CMEECoursework
+# 1
+wc -l ../data/fasta/407228326.fasta ../data/fasta/407228412.fasta ../data/fasta/e_coli.fasta
+# Explanation: "wc -l" counts newline characters, which is '\n'.
+#              If the last line doesn't have '\n' at the end,
+#              it would be one less than the actual displayed line count.
+#              The two numbered FASTA files have no newline character
+#              at the end of their final lines, so their counts are
+#              one lower than their displayed line counts.
+#              The result is the number of newline characters in each file.
 
-cd data/fasta
-#1
-wc -l 407228326.fasta 407228412.fasta e_coli.fasta
-# Explanation: "wc-l" counts newlines, which is '\n'. 
-#              If the last line doesn't has '\n' in the end, then it would be one less line than the actual lines.
-#              The result would be how many lines with a line-ending characters in the end. If the last line miss that, the result can be seen as the number of lines excluding the head line.
 
-#2
-tail -n +2 e_coli.fasta
-# Explanation: The header is excluded because everything included starts from the second line. 
-#               "tail -n +2" means it counts from the bottom to the top, until the last but two line. That would be the second line from top.
-#              The result would be the whole sequence excluded the head line.
+# 2
+tail -n +2 ../data/fasta/e_coli.fasta
+# Explanation: The header is excluded because everything starts from the second line.
+#              "tail -n +2" means output everything starting from line 2,
+#              rather than counting backwards from the bottom.
+#              The result is the E. coli sequence lines without the header.
 
-#3
-tail -n +2 e_coli.fasta | tr -d '\n' | wc -c 
-# Explanation: Word-counts the sequence length by exluding the header and the line-ending characters by deleting the '\n'. 
-#              Counts the bytes (letters) in the file after data cleaning.
-#              The result would be the total number of the four canonical DNA bases.
-#4
-tail -n +2 e_coli.fasta | tr -d '\n' | grep -o ATGC | wc -l
-# Explanation:  Exclude the header and the line-ending characters then the sequence would be in one consistent line. 
-#               Use "grep -o" to find every occurrence of "ATGC" as a linking sequnece, 
-#               then use wc -l to count how many they are because every occurrence occupies a line.
-#               The result is the number of times the complete sequence ATGC occurs.
 
-#5
-seq=$(tail -n +2 e_coli.fasta | tr -d '\n'); a=$(printf '%s' "$seq" | grep -o A | wc -l); t=$(printf '%s' "$seq" | grep -o T | wc -l); g=$(printf '%s' "$seq" | grep -o G | wc -l); c=$(printf '%s' "$seq" | grep -o C | wc -l); printf '%s / %s\n' "$((a + t))" "$((g + c))" | bc -l
-# Explanation: Name the command that cleans the sequence as seq to make life easier. 
-#              Count every occurrence of each canonical DNA base (A,T,G,C) and use their lower-case characters to name them. 
-#              Use f-string to input the result of adding the two DNA bases values inside the brasket after their commands into '%s / %s\n'
-#              and use "bc -l" to perform decimal division on '%s / %s\n' after assigning.
-#              The result would be the output of (A+T)/(G+C).
+# 3
+tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\n' | wc -c
+# Explanation: Exclude the header and remove line-ending characters
+#              by deleting '\n' with tr.
+#              "wc -c" counts the bytes in the cleaned sequence.
+#              Since the DNA sequence symbols are single-byte characters,
+#              the result is the total number of sequence positions,
+#              including ambiguous nucleotide symbols such as N, R, Y, M and W.
 
+
+# 4
+tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\n' | grep -o 'ATGC' | wc -l
+# Explanation: Exclude the header and remove line-ending characters
+#              so that wrapping cannot hide a motif occurrence.
+#              Use "grep -o" to output every occurrence of the literal motif ATGC.
+#              Then use "wc -l" to count the occurrences.
+#              Ambiguous symbols are kept in the sequence to avoid
+#              accidentally joining separated bases.
+#              The result is the total number of occurrences of ATGC.
+
+
+# 5
+seq=$(tail -n +2 ../data/fasta/e_coli.fasta | tr -d '\n'); a=$(printf '%s' "$seq" | grep -o 'A' | wc -l); t=$(printf '%s' "$seq" | grep -o 'T' | wc -l); g=$(printf '%s' "$seq" | grep -o 'G' | wc -l); c=$(printf '%s' "$seq" | grep -o 'C' | wc -l); printf '%s / %s\n' "$((a + t))" "$((g + c))" | bc -l
+# Explanation: Store the cleaned sequence in a variable called seq.
+#              Count every occurrence of the four canonical DNA bases
+#              (A, T, G and C) using grep -o and wc -l.
+#              Use Bash arithmetic to calculate A+T and G+C.
+#              Use printf to format the two counts as a division expression.
+#              Finally, use "bc -l" to perform decimal division.
+#              The result is the AT/GC ratio, calculated as (A+T)/(G+C).
+#              Ambiguous nucleotide symbols are excluded from this calculation.
