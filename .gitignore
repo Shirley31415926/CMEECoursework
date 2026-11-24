@@ -1,6 +1,6 @@
-# Python virtual environments
-.venv/
+# Virtual environments and disposable environments
 venv/
+.venv/
 sandbox/
 
 # Generated outputs
@@ -9,3 +9,16 @@ results/
 # Python cache
 __pycache__/
 *.pyc
+
+# macOS
+.DS_Store
+
+# R temporary files
+.RData
+.Rhistory
+
+# IDE settings
+.vscode/
+
+# Temporary files
+*.tmp
